@@ -1,11 +1,6 @@
-import {
-  Image,
-  StyleSheet,
-  View,
-  Text,
-  TouchableOpacity, Platform,
-} from 'react-native';
+import {Image, StyleSheet, View, Text, TouchableOpacity} from 'react-native';
 import PropTypes from 'prop-types';
+import {uploadsUrl} from '../utils/variables';
 import {StatusBar} from "expo-status-bar";
 
 const ListItem = ({singleMedia}) => {
@@ -14,7 +9,7 @@ const ListItem = ({singleMedia}) => {
     <TouchableOpacity style={styles.item}>
       <Image
         style={styles.image}
-        source={{uri: item.thumbnails.w160}}
+        source={{uri: uploadsUrl + item.thumbnails.w160}}
       ></Image>
       <View style={styles.text}>
         <Text style={styles.title}>{item.title}</Text>
