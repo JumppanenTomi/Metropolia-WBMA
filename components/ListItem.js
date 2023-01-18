@@ -1,12 +1,21 @@
 import {Image, StyleSheet, View, Text, TouchableOpacity} from 'react-native';
 import PropTypes from 'prop-types';
 import {uploadsUrl} from '../utils/variables';
-import {StatusBar} from "expo-status-bar";
+import {StatusBar} from 'expo-status-bar';
 
-const ListItem = ({singleMedia}) => {
-  const item = singleMedia;
+const ListItem = (props) => {
+  const item = props.singleMedia;
   return (
-    <TouchableOpacity style={styles.item}>
+    <TouchableOpacity
+      style={styles.item}
+      onPress={() => {
+        props.navigation.navigate('Single', {
+          title: item.title,
+          desc: item.description,
+          url: uploadsUrl + item.thumbnails.w160,
+        });
+      }}
+    >
       <Image
         style={styles.image}
         source={{uri: uploadsUrl + item.thumbnails.w160}}
@@ -20,7 +29,7 @@ const ListItem = ({singleMedia}) => {
 };
 
 ListItem.propTypes = {
-  singleMedia: PropTypes.object,
+  props: PropTypes.object,
 };
 
 export default ListItem;
@@ -28,30 +37,30 @@ export default ListItem;
 const styles = StyleSheet.create({
   SafeArea: {
     flex: 1,
-    backgroundColor: "white",
-    paddingTop: Platform.OS === "ios" ? StatusBar.currentHeight : 0
+    backgroundColor: 'white',
+    paddingTop: Platform.OS === 'ios' ? StatusBar.currentHeight : 0,
   },
 
-  item:{
-    flexDirection: "row",
-    flexWrap: "wrap",
+  item: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
     marginBottom: 10,
-    backgroundColor: "#4f4f4f"
+    backgroundColor: '#4f4f4f',
   },
 
-  image:{
+  image: {
     height: 250,
     margin: 20,
-    flex: 1
+    flex: 1,
   },
 
-  text:{
-    height: "100%",
+  text: {
+    height: '100%',
     margin: 15,
     flex: 1,
-    alignItems: "center"
+    alignItems: 'center',
   },
-  title:{
-    fontSize: 28
-  }
+  title: {
+    fontSize: 28,
+  },
 });
