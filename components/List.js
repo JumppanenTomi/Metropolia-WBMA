@@ -8,10 +8,7 @@ const List = (props) => {
     <FlatList
       data={mediaArray}
       renderItem={({item}) => (
-        <ListItem
-          navigation={props.navigation} // without destucturing
-          singleMedia={item}
-        />
+        <ListItem navigation={props.navigation} singleMedia={item} />
       )}
     />
   );

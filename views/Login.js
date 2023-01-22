@@ -1,30 +1,33 @@
 import React, {useContext, useEffect} from 'react';
-import {StyleSheet, View, Text, Button} from 'react-native';
+import {
+  Keyboard,
+  KeyboardAvoidingView,
+  Platform,
+  StyleSheet,
+  TouchableOpacity,
+} from 'react-native';
 import PropTypes from 'prop-types';
 import {MainContext} from '../contexts/MainContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useUser} from '../hooks/ApiHooks';
+import LoginForm from '../components/LoginForm';
+import RegisterForm from '../components/RegisterForm';
 
 const Login = () => {
-  const {setIsLoggedIn} = useContext(MainContext);
-
-  const logIn = async () => {
-    console.log('Login button pressed');
-    setIsLoggedIn(true);
-    try {
-      await AsyncStorage.setItem('userToken', 'abc123');
-    } catch (error) {
-      console.warn('error in storing token', error);
-    }
-  };
+  const {setIsLoggedIn, setUser} = useContext(MainContext);
+  const {getUserByToken} = useUser();
 
   const checkToken = async () => {
     try {
       const userToken = await AsyncStorage.getItem('userToken');
-      if (userToken === 'abc123') {
-        setIsLoggedIn(true);
-      }
+      // if no token available, do nothing
+      if (userToken === null) return;
+      const userData = await getUserByToken(userToken);
+      console.log('checkToken', userData);
+      setUser(userData);
+      setIsLoggedIn(true);
     } catch (error) {
-      console.log('no valid token available');
+      console.error('checkToken', error);
     }
   };
 
@@ -33,10 +36,19 @@ const Login = () => {
   }, []);
 
   return (
-    <View style={styles.container}>
-      <Text>Login</Text>
-      <Button title="Sign in!" onPress={logIn} />
-    </View>
+    <TouchableOpacity
+      onPress={() => Keyboard.dismiss()}
+      style={{flex: 1}}
+      activeOpacity={1}
+    >
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={styles.container}
+      >
+        <LoginForm />
+        <RegisterForm />
+      </KeyboardAvoidingView>
+    </TouchableOpacity>
   );
 };
 
