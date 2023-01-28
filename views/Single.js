@@ -1,42 +1,37 @@
 import React from 'react';
-import {StyleSheet, SafeAreaView, Text, Image, View} from 'react-native';
+import {uploadsUrl} from '../utils/variables';
+import PropTypes from 'prop-types';
+import {Text, Card, ListItem} from '@rneui/themed';
 
 const Single = ({route}) => {
-  const {title, desc, url} = route.params;
+  console.log(route.params);
+  const {
+    title,
+    description,
+    filename,
+    time_added: timeAdded,
+    user_id: userId,
+  } = route.params;
   return (
-    <SafeAreaView style={styles.container}>
-      <Image style={styles.image} source={{uri: url}}></Image>
-      <View style={styles.text}>
-        <Text style={styles.title}>{title}</Text>
-        <Text>{desc}</Text>
-      </View>
-    </SafeAreaView>
+    <Card>
+      <Card.Divider />
+      <Card.Image style={{width: '100%', height: '70%'}} source={{uri: uploadsUrl + filename}} />
+      <Card.Title>{title}</Card.Title>
+      <ListItem>
+        <Text>{description}</Text>
+      </ListItem>
+      <ListItem>
+        <Text>uploaded at: {timeAdded}</Text>
+      </ListItem>
+      <ListItem>
+        <Text>by user: {userId}</Text>
+      </ListItem>
+    </Card>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingTop: 40,
-  },
-  image: {
-    height: 250,
-    width: '100%',
-    margin: 20,
-  },
-
-  text: {
-    height: '100%',
-    margin: 15,
-    flex: 1,
-    alignItems: 'center',
-  },
-  title: {
-    fontSize: 28,
-  },
-});
+Single.propTypes = {
+  route: PropTypes.object,
+};
 
 export default Single;

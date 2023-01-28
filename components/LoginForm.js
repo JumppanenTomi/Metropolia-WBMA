@@ -2,7 +2,8 @@ import React, {useContext} from 'react';
 import {MainContext} from '../contexts/MainContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useAuthentication} from '../hooks/ApiHooks';
-import {Button, Text, TextInput, View} from 'react-native';
+import {Text, View} from 'react-native';
+import {Button, Input as TextInput, Card} from '@rneui/themed';
 import {Controller, useForm} from 'react-hook-form';
 
 const LoginForm = () => {
@@ -31,7 +32,7 @@ const LoginForm = () => {
 
   return (
     <View>
-      <Text>Login Form</Text>
+      <Card.Title>Login</Card.Title>
       <Controller
         control={control}
         rules={{required: true, minLength: 3}}

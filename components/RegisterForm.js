@@ -1,6 +1,7 @@
 import React from 'react';
 import {useUser} from '../hooks/ApiHooks';
-import {Button, Text, TextInput, View} from 'react-native';
+import {Text, View} from 'react-native';
+import { Button, Card, Input as TextInput} from "@rneui/themed";
 import {Controller, useForm} from 'react-hook-form';
 
 const RegisterForm = () => {
@@ -25,8 +26,9 @@ const RegisterForm = () => {
 
   return (
     <View>
-      <Text>Registeration Form</Text>
+      <Card.Title>Register</Card.Title>
       <Controller
+        style={{width: 1000}}
         control={control}
         rules={{required: true, minLength: 3}}
         render={({field: {onChange, onBlur, value}}) => (
