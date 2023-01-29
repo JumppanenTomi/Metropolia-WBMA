@@ -1,5 +1,6 @@
-import React, {useContext, useEffect} from 'react';
-import { Keyboard, KeyboardAvoidingView, Platform, TouchableOpacity} from 'react-native';
+import React, { useContext, useEffect, useState } from "react";
+import { Keyboard, KeyboardAvoidingView, Platform, ScrollView, TouchableOpacity } from "react-native";
+import {Card, Text, Button} from "@rneui/themed";
 import PropTypes from 'prop-types';
 import {MainContext} from '../contexts/MainContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -10,6 +11,7 @@ import RegisterForm from '../components/RegisterForm';
 const Login = ({navigation}) => {
   const {setIsLoggedIn, setUser} = useContext(MainContext);
   const {getUserByToken} = useUser();
+  const [toggleForm, setToggleForm] = useState(true);
 
   const checkToken = async () => {
     try {
@@ -30,14 +32,25 @@ const Login = ({navigation}) => {
   }, []);
 
   return (
-    <TouchableOpacity onPress={() => Keyboard.dismiss()} activeOpacity={1}>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      >
-        <LoginForm />
-        <RegisterForm />
-      </KeyboardAvoidingView>
-    </TouchableOpacity>
+    <ScrollView>
+      <TouchableOpacity onPress={() => Keyboard.dismiss()} activeOpacity={1}>
+        {toggleForm ? <LoginForm /> : <RegisterForm />}
+        <Card>
+          <Text>
+            {toggleForm
+              ? 'No account yet? Please register.'
+              : 'Already have an account? Please login.'}
+          </Text>
+          <Button
+            type="outline"
+            title={toggleForm ? 'Go to register' : 'Go to login'}
+            onPress={() => {
+              setToggleForm(!toggleForm);
+            }}
+          />
+        </Card>
+      </TouchableOpacity>
+    </ScrollView>
   );
 };
 
