@@ -5,7 +5,7 @@ import {useTag} from "../hooks/ApiHooks";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { uploadsUrl } from "../utils/variables";
 
-const Profile = () => {
+const Profile = ({navigation}) => {
   const {getFilesByTag} =useTag();
   const {setIsLoggedIn, user, setUser} = useContext(MainContext);
   const [avatar, setAvatar] = useState('http://placekitten.com/640'); // placekitten... is default if user has no avatar
@@ -43,6 +43,12 @@ const Profile = () => {
           } catch (error) {
             console.error('clearing asyncstorage failed', error);
           }
+        }}
+      />
+      <Button
+        title="My Files"
+        onPress={() => {
+          navigation.navigate('MyFiles');
         }}
       />
     </SafeAreaView>
